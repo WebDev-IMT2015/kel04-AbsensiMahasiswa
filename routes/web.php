@@ -18,3 +18,20 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/create', 'MahasiswaController@create');
+//Route::get('/show', 'MahasiswaController@show')->name('mahasiswa.show');
+
+Route::resource('mahasiswa','MahasiswaController');
+
+Route::get('mahasiswa', 'PagesController@getMahasiswa');
+Route::get('mahasiswa', 'MahasiswaController@Index'); //supaya bisa keluar querynya di mahasiswa
+
+Route::get('matakuliah','PagesController@getMatakuliah');
+Route::get('absensi', 'PagesController@getAbsensi');
+Route::get('nilai', 'PagesController@getNilai');
+
+Route::post('/create', function(){
+    return view('posts/createMahasiswa');
+});
+
+//Route::resource('posts','PostController');
