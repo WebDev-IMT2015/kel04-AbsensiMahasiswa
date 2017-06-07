@@ -8,11 +8,11 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">Halaman Mahasiswa</div>
+                <div class="panel-heading">Halaman Mata Kuliah</div>
 
                 <div class="panel-body">
-                    <form method="POST" action="createMhs">
-                      <input type="submit" value=" + Tambah Mahasiswa " class="btn btn-success btn-lg btn-block">
+                    <form method="POST" action="createMtk">
+                      <input type="submit" value=" + Tambah Mata Kuliah " class="btn btn-success btn-lg btn-block">
                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     </form>
                     <br>
@@ -21,11 +21,9 @@
                             <div class="col-md-12">
                                 <table class="table">
                                     <thead>
-                                        <th>NIM</th>
+                                        <th>Kode MK</th>
                                         <th>NAMA</th>
-                                        <th>ANGKATAN</th>
-                                        <th>JURUSAN</th>
-                                        <th>PASSWORD</th>
+                                        <th>PENGAJAR</th>
                                         <th>DIBUAT PADA</th>
                                         <th></th>
                                     </thead>
@@ -33,16 +31,14 @@
                                     <tbody>
                                         @foreach($posts as $post)
                                             <tr>
-                                            <th>{{ $post->nim }}</th>
+                                            <th>{{ $post->kodemk }}</th>
                                             <td>{{ $post->nama }}</td>
-                                            <td>{{ $post->angkatan }}</td>
-                                            <td>{{ $post->jurusan }}</td>
-                                            <td>{{ $post->password }}</td>
+                                            <td>{{ $post->pengajar }}</td>
                                             <td>{{ date('M j, Y', strtotime($post->created_at)) }}</td>
                                             <td>
-                                            <a href="{{ route('mahasiswa.show',$post->id)}}" class="btn btn-default">Lihat</a> 
-                                            <a href="{{ route('mahasiswa.edit',$post->id) }}" class="btn btn-default">Edit</a>  
-                                            <form method="POST" action="{{ route('mahasiswa.destroy', $post->id) }}">
+                                            <a href="{{ route('matakuliah.show',$post->id)}}" class="btn btn-default">Lihat</a> 
+                                            <a href="{{ route('matakuliah.edit',$post->id) }}" class="btn btn-default">Edit</a>  
+                                            <form method="POST" action="{{ route('matakuliah.destroy', $post->id) }}">
                             <input type="submit" value="Delete" class="btn btn-danger btn-block">
                             <input type="hidden" name="_token" value="{{ Session::token() }}">
                            {{ method_field('DELETE') }}

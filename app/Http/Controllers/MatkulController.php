@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\PostMahasiswa;
+use App\PostMatkul;
 use Session;
 
-class MahasiswaController extends Controller
+class MatkulController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,13 +19,12 @@ class MahasiswaController extends Controller
         $this->middleware('auth');
     }
 
-
     public function index()
     {
         //create a variable and store all the blog post in it from the database
-        $posts = PostMahasiswa::all();
+        $posts = PostMatkul::all();
         //return a view and pass in the above variable
-        return view('posts.indexMahasiswa')->withPosts($posts);    
+        return view('posts.indexMatkul')->withPosts($posts);  
     }
 
     /**
@@ -35,7 +34,7 @@ class MahasiswaController extends Controller
      */
     public function create()
     {
-        return view('posts.createMahasiswa');
+        return view('posts.createMatkul');
     }
 
     /**
@@ -46,30 +45,25 @@ class MahasiswaController extends Controller
      */
     public function store(Request $request)
     {
-        //validate the data
         $this->validate($request,array(
-            'nim' =>'required',
+            'kodemk' =>'required',
             'nama' =>'required',
-            'jurusan' =>'required',
-            'angkatan' =>'required',
-            'password' =>'required'
+            'pengajar' =>'required'
             ));
 
         //store in database
-        $post = new PostMahasiswa;
+        $post = new PostMatkul;
 
-        $post->nim = $request->nim;
+        $post->kodemk = $request->kodemk;
         $post->nama = $request->nama;
-        $post->jurusan = $request->jurusan;
-        $post->angkatan = $request->angkatan;
-        $post->password = $request->password;
+        $post->pengajar = $request->pengajar;
 
         $post->save();
 
         //bisa pake put juga tapi permanent
-        Session::flash('success','Data Mahasiswa Berhasil Tersimpan!');
+        Session::flash('success','Mata Kuliah Berhasil Tersimpan!');
 
-        return redirect()->route('mahasiswa.show', $post->id);
+        return redirect()->route('matakuliah.show', $post->id);
     }
 
     /**
@@ -80,8 +74,8 @@ class MahasiswaController extends Controller
      */
     public function show($id)
     {
-        $post = PostMahasiswa::find($id); //disimpan di dalm variable post
-        return view('posts.showMahasiswa')->with('post',$post); //di halaman post.show akan ditampilkan isi variable tersebut
+        $post = PostMatkul::find($id); //disimpan di dalm variable post
+        return view('posts.showMatkul')->with('post',$post); //di halaman post.show akan ditampilkan isi variable tersebut
     }
 
     /**
@@ -92,10 +86,10 @@ class MahasiswaController extends Controller
      */
     public function edit($id)
     {
-        //find the post in the database and save it as variable
-        $post = PostMahasiswa::find($id);
+         //find the post in the database and save it as variable
+        $post = PostMatkul::find($id);
         //return the view and pass the var that is previously xreated
-        return view('posts.editMahasiswa')->withPost($post);
+        return view('posts.editMatkul')->withPost($post);
     }
 
     /**
@@ -109,29 +103,25 @@ class MahasiswaController extends Controller
     {
         //validate the data
         $this->validate($request,array(
-            'nim' =>'required',
+            'kodemk' =>'required',
             'nama' =>'required',
-            'jurusan' =>'required',
-            'angkatan' =>'required',
-            'password' =>'required'
+            'pengajar' =>'required'
             ));
 
 
         //save the data to the database
-        $post = PostMahasiswa::find($id);
+        $post = PostMatkul::find($id);
 
-        $post->nim = $request->input('nim');
+        $post->kodemk = $request->input('kodemk');
         $post->nama = $request->input('nama');
-        $post->jurusan = $request->input('jurusan');
-        $post->angkatan = $request->input('angkatan');
-        $post->password = $request->input('password');
+        $post->pengajar = $request->input('pengajar');
 
         $post->save();
 
         //set flash data with sukses messages
         Session::flash('success', 'This post was successfully saved.');
         //redirext with flash data to posts.show
-        return redirect()->route('mahasiswa.show',$post->id);
+        return redirect()->route('matakuliah.show',$post->id);
     }
 
     /**
@@ -142,20 +132,6 @@ class MahasiswaController extends Controller
      */
     public function destroy($id)
     {
-        $post = PostMahasiswa::find($id);
-        //$posts = PostMahasiswa::all();
-
-        //$post->delete();
-
-        if ($post != null) {
-        $post->delete();
-        return redirect()->route('mahasiswa.index')->with(['message'=> 'Successfully deleted!!']);
-    }
-
-    return redirect()->route('mahasiswa.index')->with(['message'=> 'Wrong ID!!']);
-
-        //Session::flash('success','The post was successfully deleted');
-        
-       // return view('posts.indexMahasiswa')->withPosts($posts);
+        //
     }
 }
