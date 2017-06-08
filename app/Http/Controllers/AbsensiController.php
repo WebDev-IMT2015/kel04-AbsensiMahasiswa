@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\PostAbsensi;
+use App\PostMahasiswa;
+use App\PostMatkul;
 use Session;
 
 class AbsensiController extends Controller
@@ -23,8 +25,10 @@ class AbsensiController extends Controller
     {
         //create a variable and store all the blog post in it from the database
         $posts = PostAbsensi::all();
+        //$nim = DB::table('absensi')->get();
+
         //return a view and pass in the above variable
-        return view('posts.indexMahasiswa')->withPosts($posts); 
+        return view('posts.indexAbsensi')->withPosts($posts);
     }
 
     /**
@@ -34,7 +38,10 @@ class AbsensiController extends Controller
      */
     public function create()
     {
-        //
+        $nim = PostMahasiswa::all();
+        $matkul = PostMatkul::all();
+
+        return view('posts.createAbsensi')->withNim($nim)->withMatkul($matkul);
     }
 
     /**
@@ -45,7 +52,21 @@ class AbsensiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+            //store in database
+            $post = new PostAbsensi;
+
+            $post->nim = $request->get('mahasiswasn');
+            $post->mk = $request->get('matkulsn');
+            $post->hari = $request->get('hari');
+            $post->status = $request->get('status');
+
+            $post->save();
+
+            //bisa pake put juga tapi permanent
+            Session::flash('success','Data Mahasiswa Berhasil Tersimpan!');
+
+            return redirect()->route('absensi.show', $post->id);
     }
 
     /**
@@ -56,7 +77,8 @@ class AbsensiController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = PostAbsensi::find($id); //disimpan di dalm variable post
+        return view('posts.showAbsensi')->with('post',$post); //di halaman post.show akan ditampilkan isi variable tersebut
     }
 
     /**

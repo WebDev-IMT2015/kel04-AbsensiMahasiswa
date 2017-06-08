@@ -21,8 +21,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 //Route::get('/create', 'MahasiswaController@create');
 
-Route::get('/absensi', 'AbsensiController@index');
-Route::get('/matakuliah', 'MatkulController@index');
+//Route::get('/absensi', 'AbsensiController@index');
+//Route::get('/matakuliah', 'MatkulController@index');
 Route::get('mahasiswa', 'MahasiswaController@Index'); //supaya bisa keluar querynya di mahasiswa
 
 Route::get('/indexMahasiswa', 'MahasiswaController@index');
@@ -37,13 +37,18 @@ Route::resource('absensi','AbsensiController');
 //Route::get('absensi', 'PagesController@getAbsensi');
 //Route::get('nilai', 'PagesController@getNilai');
 
-Route::post('/createMhs', function(){    //diambil dari indexMahasiswa bagian form post axtion
-    return view('posts/createMahasiswa');
-});
 
-Route::post('/createMtk', function(){    //diambil dari indexMahasiswa bagian form post axtion
-    return view('posts/createMatkul');
-});
+Route::post("/createMhs", "MahasiswaController@create");    //parameter bertama dari method button yang ada di indexMahasiswa
+Route::post("/createMtk", "MatkulController@create");
+//Route::post("/createAbs", "AbsensiController@create");
+
+
+
+
+//Route::post('/createAbs', function(){    //diambil dari indexMahasiswa bagian form post axtion
+ //   return View::make('posts/createAbsensi')->with('nim', $nim);
+//});
+
 
 
 
