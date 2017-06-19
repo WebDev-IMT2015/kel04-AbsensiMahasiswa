@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\PostAbsensi;
+use App\PostNilai;
 use App\PostMahasiswa;
 use App\PostMatkul;
 use Session;
 
-class AbsensiController extends Controller
+class NilaiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,13 +22,11 @@ class AbsensiController extends Controller
     }
 
     public function index()
-    {
+    { //pergi ke halaman utama langsung
         //create a variable and store all the blog post in it from the database
-        $posts = PostAbsensi::all();
-        //$nim = DB::table('absensi')->get();
-
+        $posts = PostNilai::all();
         //return a view and pass in the above variable
-        return view('posts.indexAbsensi')->withPosts($posts);
+        return view('posts.indexNilai')->withPosts($posts);  
     }
 
     /**
@@ -41,7 +39,7 @@ class AbsensiController extends Controller
         $nim = PostMahasiswa::all();
         $matkul = PostMatkul::all();
 
-        return view('posts.createAbsensi')->withNim($nim)->withMatkul($matkul);
+        return view('posts.createNilai')->withNim($nim)->withMatkul($matkul);
     }
 
     /**
@@ -52,21 +50,32 @@ class AbsensiController extends Controller
      */
     public function store(Request $request)
     {
-
-            //store in database
-            $post = new PostAbsensi;
+        //store in database
+            $post = new PostNilai;
 
             $post->nim = $request->get('mahasiswasn');
             $post->mk = $request->get('matkulsn');
             $post->hari = $request->get('hari');
-            $post->status = $request->get('status');
+
+            $saa1 = $request->get('saa1');
+            $saa2 = $request->get('saa2');
+            $saa3 = $request->get('saa3');
+            $uts = $request->get('uts');
+            $uas = $request->get('uas');
+
+            $post->saa1 = $request->get('saa1');
+            $post->saa2 = $request->get('saa2');
+            $post->saa3 = $request->get('saa3');
+            $post->uts = $request->get('uts');
+            $post->uas = $request->get('uas');
+            $post->nilaiakhir = ($saa1 + $saa2 + $saa3 + $uts + $uas) / 5;
 
             $post->save();
 
             //bisa pake put juga tapi permanent
-            Session::flash('success','Data Mahasiswa Berhasil Tersimpan!');
+            Session::flash('success','Data Nilai Mahasiswa Berhasil Tersimpan!');
 
-            return redirect()->route('absensi.show', $post->id);
+            return redirect()->route('nilai.show', $post->id);
     }
 
     /**
@@ -77,8 +86,8 @@ class AbsensiController extends Controller
      */
     public function show($id)
     {
-        $post = PostAbsensi::find($id); //disimpan di dalm variable post
-        return view('posts.showAbsensi')->with('post',$post); //di halaman post.show akan ditampilkan isi variable tersebut
+        $post = PostNilai::find($id); //disimpan di dalm variable post
+        return view('posts.showNilai')->with('post',$post); //di halaman post.show akan ditampilkan isi variable tersebut    
     }
 
     /**
@@ -90,11 +99,11 @@ class AbsensiController extends Controller
     public function edit($id)
     {
         //find the post in the database and save it as variable
-        $post = PostAbsensi::find($id);
+        $post = PostNilai::find($id);
         $nim = PostMahasiswa::all();
         $matkul = PostMatkul::all();
         //return the view and pass the var that is previously xreated
-        return view('posts.editAbsensi')->withPost($post)->withNim($nim)->withMatkul($matkul);
+        return view('posts.editNilai')->withPost($post)->withNim($nim)->withMatkul($matkul);
     }
 
     /**
@@ -106,20 +115,23 @@ class AbsensiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //save the data to the database
-        $post = PostAbsensi::find($id);
+        $post = PostNilai::find($id);
 
         $post->nim = $request->get('mahasiswasn');
         $post->mk = $request->get('matkulsn');
         $post->hari = $request->get('hari');
-        $post->status = $request->get('status');
+        $post->saa1 = $request->get('saa1');
+        $post->saa2 = $request->get('saa2');
+        $post->saa3 = $request->get('saa3');
+        $post->uts = $request->get('uts');
+        $post->uas = $request->get('uas');
 
         $post->save();
 
         //set flash data with sukses messages
         Session::flash('success', 'This post was successfully updated!.');
         //redirext with flash data to posts.show
-        return redirect()->route('absensi.show',$post->id);
+        return redirect()->route('nilai.show',$post->id);
     }
 
     /**
@@ -130,16 +142,16 @@ class AbsensiController extends Controller
      */
     public function destroy($id)
     {
-        $post = PostAbsensi::find($id);
+        $post = PostNilai::find($id);
         //$posts = PostMahasiswa::all();
 
         //$post->delete();
 
         if ($post != null) {
         $post->delete();
-        return redirect()->route('absensi.index')->with(['message'=> 'Successfully deleted!!']);
+        return redirect()->route('nilai.index')->with(['message'=> 'Successfully deleted!!']);
         }
 
-        return redirect()->route('absensi.index')->with(['message'=> 'Wrong ID!!']);
+        return redirect()->route('nilai.index')->with(['message'=> 'Wrong ID!!']);
     }
 }

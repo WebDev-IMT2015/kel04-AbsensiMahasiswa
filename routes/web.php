@@ -31,7 +31,7 @@ Route::get('/indexMahasiswa', 'MahasiswaController@index');
 Route::resource('mahasiswa','MahasiswaController');
 Route::resource('matakuliah','MatkulController');
 Route::resource('absensi','AbsensiController');
-
+Route::resource('nilai', 'NilaiController');
 
 
 //Route::get('absensi', 'PagesController@getAbsensi');

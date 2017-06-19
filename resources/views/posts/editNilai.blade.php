@@ -1,23 +1,17 @@
 
 @extends('layouts.app')
 
-@section('title','Mahasiswa')
+@section('title','Mata Kuliah')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading"><h2>DATA MAHASISWA KE {{ $post->id }}
-                </h2>
-                </div>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <h1>Edit Nilai</h1>
+    <hr>
 
-                <div class="panel-body">
-
-                    <form action="{{ route('absensi.update', $post->id) }}" method="post"> 
-    <div class ="col-md-8">
-        <label for="nim">Nim:</label>
-            <div class="form-group">
+    
+<form action="{{ route('nilai.update', $post->id) }}" method="post"> 
+      <div class="form-group">
         <label name="nim"><h3>NIM :</h3></label> &nbsp;
         <select name ="mahasiswasn" class="selectpicker" data-live-search="true" data-width="500px" title="Klik Nim Yang ingin Dipilih">
         @foreach($nim as $nm)
@@ -51,43 +45,42 @@
 
 
       <div class="form-group">
-        <label name="status"><h3>&nbsp;MK :</h3></label> &nbsp;
-        <select name ="status" class="selectpicker" data-live-search="true" data-width="500px" title="Masuk/Absen">
-          <option value="masuk">Masuk</option>
-          <option value="absen">Absen</option>
-      </select>
+        <label name="saa1">SAA1 :</label>
+        <input id="saa1" name="saa1" class="form-control">
       </div>
-           </div> 
+      <div class="form-group">
+        <label name="saa2">SAA2 :</label>
+        <input id="saa2" name="saa2" class="form-control">
+      </div>
+      <div class="form-group">
+        <label name="saa3">SAA3 :</label>
+        <input id="saa3" name="saa3" class="form-control">
+      </div>
+      <div class="form-group">
+        <label name="uts">UTS :</label>
+        <input id="uts" name="uts" class="form-control">
+      </div>
+      <div class="form-group">
+        <label name="uas">UAS :</label>
+        <input id="uas" name="uas" class="form-control">
+      </div>
 
-    <div class="col-md-4">
-        <div class="well">
-            <dl class="dl-horizontal">
-                <dt>create at:</dt>
-                <dd>{{ date('M j, Y h:ia',strtotime($post->created_at)) }}</dd>
-            </dl>
-
-            <dl class="dl-horizontal">
-                <dt>Last Updated:</dt>
-                <dd>{{ date('M j, Y h:ia',strtotime($post->updated_at)) }}</dd>
-            </dl>
-            <hr>
-            <div class="row">
+<hr>
+    <div class="row">
                     <div class="col-sm-6">
-                        <a href="{{  route('absensi.show', $post->id, 'Cancel')  }}" class="btn btn-danger btn-block"> Cancel</a>﻿
+                        <a href="{{  route('nilai.index', $post->id, 'Cancel')  }}" class="btn btn-danger btn-block"> Cancel</a>﻿
                     </div>
                     <div class="col-sm-6">
-                         <button type="submit" class="btn btn-success btn-block">Update Absensi</button>
+                         <button type="submit" class="btn btn-success btn-block">Save Changes</button>
                     </div>
                 </div>
         </div>
     </div>
-    
-   <input type="hidden" name="_method" value="PUT">
+
+    <input type="hidden" name="_method" value="PUT">
    <input type="hidden" name="_token" value="{{ Session::token() }}">  <!-- HARUS PAKE INI SUPAYA GA TOKEN ERROR EXXEPTION-->
   </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
+  </div>
+</div>﻿
 @endsection

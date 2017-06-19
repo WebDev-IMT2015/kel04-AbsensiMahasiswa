@@ -132,6 +132,16 @@ class MatkulController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = PostMatkul::find($id);
+        //$posts = PostMahasiswa::all();
+
+        //$post->delete();
+
+        if ($post != null) {
+        $post->delete();
+        return redirect()->route('matakuliah.index')->with(['message'=> 'Successfully deleted!!']);
+        }
+
+        return redirect()->route('matakuliah.index')->with(['message'=> 'Wrong ID!!']);
     }
 }
